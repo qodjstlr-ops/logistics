@@ -65,7 +65,7 @@ def analyze(master, materials):
             continue
         if order['invalid']:
             continue
-        if 0 < len(order['items']) * 100 <= order['total'] * 5:
+        if 0 < len(order['items']) * 100 <= order['total'] * 10:
             order['fcid'] = next(iter(ids))
             order['rate'] = len(order['items']) / order['total'] * 100
             eligible.append(order)
