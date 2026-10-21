@@ -22,7 +22,10 @@ class AnalysisTests(unittest.TestCase):
             values += [[key, 1 if n == 0 else 0, 'PART'] for n in range(count)]
         values += [['C', n, 'PART'] for n in [0, -1, 0.9]]
         result = analyze(master, workbook(['제조오더번호', '이동잔량', '품목코드'], values))
-        self.assertEqual([o['order'] for o in result['orders']], ['A'])
+        self.assertEqual([o['order'] for o in result['orders']], ['A', 'B'])
+        self.assertTrue(result['orders'][0]['expanded'])
+        self.assertFalse(result['orders'][1]['expanded'])
+        self.assertEqual(result['summary']['eligibleOrders'], 1)
         self.assertEqual(result['orders'][0]['rate'], 10)
         self.assertEqual(result['orders'][0]['fcid'], '001')
         self.assertEqual(result['orders'][0]['items'][0]['품목코드'], 'PART')

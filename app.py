@@ -65,14 +65,16 @@ def analyze(master, materials):
             continue
         if order['invalid']:
             continue
-        if 0 < len(order['items']) * 100 <= order['total'] * 10:
+        if order['items']:
             order['fcid'] = next(iter(ids))
             order['rate'] = len(order['items']) / order['total'] * 100
+            order['expanded'] = len(order['items']) * 100 <= order['total'] * 10
             eligible.append(order)
     eligible.sort(key=lambda o: (o['fcid'], o['order']))
     return {'orders': eligible, 'warnings': dict(warnings), 'summary': {
         'totalOrders': len(orders), 'unshippedRows': unshipped,
-        'eligibleOrders': len(eligible), 'fcids': len({o['fcid'] for o in eligible})}}
+        'eligibleOrders': sum(o['expanded'] for o in eligible),
+        'fcids': len({o['fcid'] for o in eligible})}}
 
 
 class Handler(BaseHTTPRequestHandler):
