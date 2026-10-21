@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: materials-management-test
+    runtime: docker
+    plan: free
+    healthCheckPath: /
+    autoDeployTrigger: off
