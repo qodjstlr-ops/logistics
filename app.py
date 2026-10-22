@@ -38,7 +38,9 @@ def analyze(master, materials):
             mapping[text(row['제조오더번호'])].add(text(row['FCID']))
     orders = {}
     warnings = defaultdict(int)
-    for row in rows(materials, ['제조오더번호', '이동잔량', '품목코드']):
+ for row in rows(materials, ['제조오더번호', '이동잔량', '품목코드', '대상구분']):
+        if text(row.get('대상구분')).upper() == 'ROP':
+            continue
         key = text(row['제조오더번호'])
         if not key:
             warnings['제조오더번호 누락 행'] += 1
